@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:newtronic_apps/view/home_view.dart';
 
 import 'splash_screen.dart';
 import 'utils/size_config.dart';
@@ -26,7 +27,6 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Manrope',
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         appBarTheme: const AppBarTheme(
-          centerTitle: true,
           backgroundColor: Colors.white,
           elevation: 1,
           foregroundColor: Colors.black,
@@ -38,6 +38,7 @@ class MyApp extends StatelessWidget {
       initialRoute: SplashScreen.routeName,
       routes: {
         SplashScreen.routeName: (context) => const SplashScreen(),
+        HomeView.routeName: (context) => const HomeView(),
       },
     );
   }
