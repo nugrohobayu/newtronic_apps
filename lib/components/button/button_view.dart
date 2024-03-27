@@ -68,10 +68,10 @@ class ButtonView extends StatelessWidget {
                     ? Colors.white
                     : isSecondaryColor
                         ? Colors.grey
-                        : Colors.orangeAccent),
+                        : const Color(0xFF3B82F6)),
             elevation: 0,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(sizeBorderRadius ?? 48),
+              borderRadius: BorderRadius.circular(sizeBorderRadius ?? 8),
               side: isOutlined
                   ? BorderSide(
                       color: borderColor ??
@@ -79,7 +79,7 @@ class ButtonView extends StatelessWidget {
                               ? color.surface
                               : isSecondaryColor
                                   ? Colors.grey
-                                  : Colors.orangeAccent),
+                                  : const Color(0xFF3B82F6)),
                     )
                   : BorderSide.none,
             ),
@@ -97,7 +97,7 @@ class ButtonView extends StatelessWidget {
                 prefixIcon!,
                 SizedBox(width: widthPrefix),
               ] else
-                Container(),
+                const SizedBox(),
               Flexible(
                 child: Text(
                   name,
@@ -126,7 +126,7 @@ class ButtonView extends StatelessWidget {
                 SizedBox(width: widthSuffix),
                 suffixIcon!
               ] else
-                Container()
+                const SizedBox(),
             ],
           ),
         ),
