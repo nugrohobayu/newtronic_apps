@@ -51,6 +51,8 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
+
+        multiDexKeepProguard file('multidex-config.pro')
     }
 
     buildTypes {
@@ -58,6 +60,8 @@ android {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
+            minifyEnabled false
+            shrinkResources false
         }
     }
 }
@@ -67,6 +71,10 @@ flutter {
 }
 
 dependencies {
-    implementation 'com.android.support:multidex:1.0.3'
-    implementation platform('com.google.firebase:firebase-bom:32.7.2')
+    implementation 'com.android.support:multidex:2.0.1'
+    def exoplayer_version = "2.16.1"
+    implementation "com.google.android.exoplayer:exoplayer-core:2.16.1"
+    implementation "com.google.android.exoplayer:exoplayer-dash:2.16.1"
+    implementation "com.google.android.exoplayer:exoplayer-hls:2.16.1"
+    implementation "com.google.android.exoplayer:exoplayer-smoothstreaming:2.16.1"
 }
