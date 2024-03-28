@@ -49,6 +49,9 @@ dependencies:
   video_player: ^2.8.2
   audio_video_progress_bar: ^2.0.1
   vimeo_player_flutter: ^0.1.0
+  sqflite: ^2.3.0
+  flutter_downloader: ^1.11.6
+
 
 
 

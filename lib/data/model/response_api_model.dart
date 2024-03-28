@@ -86,24 +86,23 @@ class Playlist {
   });
 
   factory Playlist.fromJson(Map<String, dynamic> json) => Playlist(
-        id: json["id"],
-        dirId: json["dir_id"],
-        title: json["title"],
-        description: json["description"],
-        url: json["url"],
-        type: json["type"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
+        id: json["id"] ?? 0,
+        dirId: json["dir_id"] ?? 0,
+        title: json["title"] ?? "",
+        description: json["description"] ?? "",
+        url: json["url"] ?? "",
+        type: json["type"] ?? "",
+        createdAt: DateTime.parse(
+            json["created_at"] ?? DateTime.now().toIso8601String()),
+        updatedAt: DateTime.parse(
+            json["updated_at"] ?? DateTime.now().toIso8601String()),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "dir_id": dirId,
         "title": title,
         "description": description,
         "url": url,
         "type": type,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
       };
 }

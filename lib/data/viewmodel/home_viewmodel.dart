@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:newtronic_apps/data/model/button_list_model.dart';
 import 'package:newtronic_apps/data/service/api.dart';
+import 'package:newtronic_apps/data/service/database_service.dart';
 
 import '../model/response_api_model.dart';
 
 class HomeViewModel extends ChangeNotifier {
-  HomeViewModel() {
+  final DatabaseService databaseService;
+
+  HomeViewModel({required this.databaseService}) {
     _getList();
+    _getPlaylist();
   }
   List<ButtonModelList> listButton = [
     ButtonModelList(title: 'Produk'),
@@ -16,6 +20,8 @@ class HomeViewModel extends ChangeNotifier {
   ];
   int currentBtn = 0;
   String urlLogo = '';
+  String titleMenu = '';
+  String descMenu = '';
   String urlVideo = '';
   String idVideo = '';
   String img = '';
@@ -25,6 +31,38 @@ class HomeViewModel extends ChangeNotifier {
   List<Playlist> listContent = [];
   int currentPlay = 0;
   bool isPlayed = true;
+
+  List<Playlist> _playlist = [];
+  List<Playlist> get playlist => _playlist;
+
+  Future _getPlaylist() async {
+    final result = await DatabaseService().getDownloaded();
+    _playlist = result;
+    notifyListeners();
+  }
+
+  void download(Playlist playlist) async {
+    try {
+      await databaseService.addDownloaded(playlist);
+      _getPlaylist();
+    } catch (e) {
+      notifyListeners();
+    }
+  }
+
+  void removeDownloaded(String id) async {
+    try {
+      await databaseService.deleteDownloaded(id);
+      _getPlaylist();
+    } catch (e) {
+      notifyListeners();
+    }
+  }
+
+  Future<bool> isDownload(String id) async {
+    final downloadedPlaylist = await databaseService.getDownloadById(id);
+    return downloadedPlaylist.isNotEmpty;
+  }
 
   void played(index) {
     if (type == 'video') {
@@ -43,6 +81,8 @@ class HomeViewModel extends ChangeNotifier {
     final result = await Api().fetchApi();
     if (result!.data.isNotEmpty) {
       urlLogo = result.data.first.logo;
+      titleMenu = result.data.first.title;
+      descMenu = result.data.first.description;
       img = result.data.first.playlist.first.url;
       title = result.data.first.playlist.first.title;
       desc = result.data.first.playlist.first.description;
