@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:newtronic_apps/data/model/button_list_model.dart';
 import 'package:newtronic_apps/data/service/api.dart';
 import 'package:newtronic_apps/data/service/database_service.dart';
-
 import '../model/response_api_model.dart';
 
 class HomeViewModel extends ChangeNotifier {
   final DatabaseService databaseService;
-
   HomeViewModel({required this.databaseService}) {
     _getList();
     _getPlaylist();
@@ -18,6 +16,7 @@ class HomeViewModel extends ChangeNotifier {
     ButtonModelList(title: 'Layanan'),
     ButtonModelList(title: 'Lainnya'),
   ];
+
   int currentBtn = 0;
   String urlLogo = '';
   String titleMenu = '';

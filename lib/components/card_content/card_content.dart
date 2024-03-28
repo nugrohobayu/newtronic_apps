@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:newtronic_apps/components/dialog/dialog_view.dart';
 import 'package:newtronic_apps/data/model/response_api_model.dart';
 import 'package:newtronic_apps/data/viewmodel/home_viewmodel.dart';
+import 'package:newtronic_apps/utils/file_downloader.dart';
 import 'package:provider/provider.dart';
 
 import '../../utils/size_config.dart';
@@ -78,7 +80,18 @@ class CardContent extends StatelessWidget {
                     textSize: 14,
                     onPressed: () {
                       if (!isDownloaded) {
-                        provider.download(playlist);
+                        FileDownloader()
+                            .downloadFromUrl(playlist.url, playlist.title)
+                            .then((value) {
+                          if (value == true) {
+                            DialogView.info(
+                              context,
+                              description: 'File Berhasil di Download',
+                              onPressedOk: () => Navigator.pop(context),
+                            );
+                            provider.download(playlist);
+                          }
+                        });
                       } else {
                         provider.removeDownloaded(playlist.id.toString());
                       }

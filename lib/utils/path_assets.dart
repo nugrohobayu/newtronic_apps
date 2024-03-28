@@ -5,4 +5,5 @@ class PathAssets {
       'assets/images/ic-error-connection.png';
   static const String icNoData = 'assets/images/ic-no-data.png';
   static const String icWarning = 'assets/images/ic-warning.png';
+  static const String icInfo = 'assets/images/ic-info.png';
 }

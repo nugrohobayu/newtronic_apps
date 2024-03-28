@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:newtronic_apps/data/service/database_service.dart';
 import 'package:newtronic_apps/data/viewmodel/home_viewmodel.dart';
 import 'package:newtronic_apps/view/downloaded_view.dart';
@@ -11,6 +12,7 @@ import 'utils/size_config.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await FlutterDownloader.initialize(debug: true);
   SystemChrome.setPreferredOrientations(<DeviceOrientation>[
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown
