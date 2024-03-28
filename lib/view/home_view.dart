@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:newtronic_apps/components/button/button_view.dart';
 import 'package:newtronic_apps/components/image_view/image_view.dart';
 import 'package:newtronic_apps/data/viewmodel/home_viewmodel.dart';
-import 'package:newtronic_apps/utils/path_assets.dart';
 import 'package:newtronic_apps/utils/size_config.dart';
 import 'package:provider/provider.dart';
 import 'package:vimeo_player_flutter/vimeo_player_flutter.dart';
@@ -21,9 +20,12 @@ class HomeView extends StatelessWidget {
               appBar: AppBar(
                 automaticallyImplyLeading: false,
                 backgroundColor: const Color(0xFFAEAEAE),
-                title: ImageView(
-                  image: PathAssets.imgLogo,
+                title: Image.network(
+                  provider.urlLogo,
                   width: SizeConfig.width * .4,
+                  color: const Color(0xff2563EB),
+                  errorBuilder: (context, error, stackTrace) =>
+                      const Icon(Icons.image_not_supported_outlined),
                 ),
                 actions: [
                   IconButton(onPressed: () {}, icon: const Icon(Icons.menu))
@@ -33,9 +35,56 @@ class HomeView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                        height: SizeConfig.height * .3,
-                        child: VimeoPlayer(videoId: '558733589')),
+                    provider.type == 'video'
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                  height: SizeConfig.height * .3,
+                                  child: VimeoPlayer(videoId: '558733589')),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 16.0, top: 8),
+                                child: Text(
+                                  provider.title,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 16.0, bottom: 8.0),
+                                child: Text(provider.desc),
+                              ),
+                            ],
+                          )
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ImageView(
+                                image: provider.img,
+                                height: SizeConfig.height * .3,
+                                width: SizeConfig.width,
+                                fit: BoxFit.fill,
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 16.0, top: 8),
+                                child: Text(
+                                  provider.title,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 16.0, bottom: 8.0),
+                                child: Text(provider.desc),
+                              ),
+                            ],
+                          ),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -81,12 +130,21 @@ class HomeView extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             GestureDetector(
-                                onTap: () {},
-                                child: const Icon(
-                                  Icons.play_circle,
-                                  color: Colors.black87,
-                                  size: 50,
-                                )),
+                                onTap: () {
+                                  provider.playback(e.key);
+                                  provider.played(e.key);
+                                },
+                                child: provider.currentPlay == e.key
+                                    ? const Icon(
+                                        Icons.pause_circle,
+                                        color: Colors.black87,
+                                        size: 50,
+                                      )
+                                    : const Icon(
+                                        Icons.play_circle,
+                                        color: Colors.black87,
+                                        size: 50,
+                                      )),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
