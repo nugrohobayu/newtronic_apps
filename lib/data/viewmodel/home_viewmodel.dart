@@ -29,7 +29,7 @@ class HomeViewModel extends ChangeNotifier {
   String desc = '';
   String type = '';
   List<Playlist> listContent = [];
-  int currentPlay = 0;
+  int? currentPlay;
   bool isPlayed = true;
 
   List<Playlist> _playlist = [];

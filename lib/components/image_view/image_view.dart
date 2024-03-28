@@ -9,7 +9,7 @@ class ImageView extends StatelessWidget {
   final dynamic image;
   final double? height, width, borderRadius;
   final BoxFit? fit;
-  final Color? loadingColor;
+  final Color? loadingColor, color;
   final Widget? loadingWidget, errorWidget;
 
   // ignore: prefer_const_constructors_in_immutables
@@ -23,6 +23,7 @@ class ImageView extends StatelessWidget {
     this.fit = BoxFit.cover,
     this.borderRadius,
     this.errorWidget,
+    this.color,
   }) : super(key: key);
 
   @override
@@ -43,6 +44,7 @@ class ImageView extends StatelessWidget {
               fit: BoxFit.fitWidth,
               width: width,
               height: height,
+              color: color,
             );
           }
           return ClipRRect(
@@ -52,6 +54,7 @@ class ImageView extends StatelessWidget {
               width: width,
               height: height,
               fit: fit,
+              color: color,
               placeholder: (context, url) {
                 return loadingWidget ??
                     Center(
@@ -80,6 +83,7 @@ class ImageView extends StatelessWidget {
               fit: BoxFit.fitWidth,
               width: width,
               height: height,
+              color: color,
             );
           }
           return ClipRRect(
@@ -89,6 +93,7 @@ class ImageView extends StatelessWidget {
               height: height,
               width: width,
               fit: fit,
+              color: color,
             ),
           );
         }
@@ -102,6 +107,7 @@ class ImageView extends StatelessWidget {
           height: height,
           width: width,
           fit: fit,
+          color: color,
         ),
       );
     }

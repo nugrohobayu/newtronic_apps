@@ -19,12 +19,10 @@ class HomeView extends StatelessWidget {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: const Color(0xFFAEAEAE),
-          title: Image.network(
-            provider.urlLogo,
+          title: ImageView(
+            image: provider.urlLogo,
             width: SizeConfig.width * .4,
             color: const Color(0xff2563EB),
-            errorBuilder: (context, error, stackTrace) =>
-                const Icon(Icons.image_not_supported_outlined),
           ),
         ),
         endDrawer: Drawer(
