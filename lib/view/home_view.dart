@@ -39,9 +39,11 @@ class HomeView extends StatelessWidget {
                         ? Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
+                              SizedBox(
                                   height: SizeConfig.height * .3,
-                                  child: VimeoPlayer(videoId: '558733589')),
+                                  child: VimeoPlayer(
+                                    videoId: provider.idVideo,
+                                  )),
                               Padding(
                                 padding:
                                     const EdgeInsets.only(left: 16.0, top: 8),

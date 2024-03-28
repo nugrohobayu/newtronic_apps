@@ -16,6 +16,8 @@ class HomeViewModel extends ChangeNotifier {
   ];
   int currentBtn = 0;
   String urlLogo = '';
+  String urlVideo = '';
+  String idVideo = '';
   String img = '';
   String title = '';
   String desc = '';
@@ -25,6 +27,9 @@ class HomeViewModel extends ChangeNotifier {
   bool isPlayed = true;
 
   void played(index) {
+    if (type == 'video') {
+      splitUrl(urlVideo);
+    }
     currentPlay = index;
     notifyListeners();
   }
@@ -47,10 +52,22 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   void playback(int index) {
+    if (listContent[index].type == 'video') {
+      urlVideo = listContent[index].url;
+    }
     img = listContent[index].url;
     title = listContent[index].title;
     desc = listContent[index].description;
     type = listContent[index].type;
+    notifyListeners();
+  }
+
+  void splitUrl(String url) {
+    List<String> parts = url.split('/');
+    String lastPart = parts.last;
+    List<String> idAndParams = lastPart.split('?');
+    String id = idAndParams.first;
+    idVideo = id;
     notifyListeners();
   }
 }
