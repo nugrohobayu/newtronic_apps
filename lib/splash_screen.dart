@@ -1,5 +1,9 @@
+import 'dart:io';
+
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:newtronic_apps/view/home_view.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import 'components/image_view/image_view.dart';
 import 'utils/path_assets.dart';
@@ -13,12 +17,36 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  Future<bool> checkStoragePermission() async {
+    if (Platform.isAndroid) {
+      final plugin = DeviceInfoPlugin();
+      final android = await plugin.androidInfo;
+      final permissionStorage = await Permission.storage.status;
+      final permissionPhotos = await Permission.photos.status;
+
+      if (android.version.sdkInt! < 33) {
+        if (permissionStorage.isDenied) {
+          await Permission.storage.request();
+        }
+        return permissionStorage.isGranted;
+      } else {
+        if (permissionPhotos.isDenied) {
+          await Permission.photos.request();
+        }
+        return permissionPhotos.isGranted;
+      }
+    } else {
+      return true;
+    }
+  }
+
   @override
-  void initState() {
-    super.initState();
+  void initState() async {
+    await checkStoragePermission();
     Future.delayed(const Duration(seconds: 2)).then((value) {
       Navigator.pushNamed(context, HomeView.routeName);
     });
+    super.initState();
   }
 
   @override
