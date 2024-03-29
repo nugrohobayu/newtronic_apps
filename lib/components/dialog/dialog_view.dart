@@ -73,7 +73,7 @@ class DialogView {
             ),
           ),
           content: SizedBox(
-            height: height ?? SizeConfig.height * .3,
+            height: height ?? SizeConfig.height * .25,
             child: Column(
               children: [
                 Padding(

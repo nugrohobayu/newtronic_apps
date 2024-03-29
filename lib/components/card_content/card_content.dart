@@ -86,7 +86,7 @@ class CardContent extends StatelessWidget {
                           if (value == true) {
                             DialogView.info(
                               context,
-                              description: 'File Berhasil di Download',
+                              description: 'Berhasil Unduh File',
                               onPressedOk: () => Navigator.pop(context),
                             );
                             provider.download(playlist);
