@@ -37,7 +37,8 @@ class CardContent extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   GestureDetector(
-                      onTap: () {
+                      onTap: () async {
+                        await provider.getImageFile(playlist.title);
                         provider.playback(playlist.id - 1);
                         provider.played(playlist.id - 1);
                       },

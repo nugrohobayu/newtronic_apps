@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
+import 'package:newtronic_apps/utils/size_config.dart';
 
 class ImageView extends StatelessWidget {
   final dynamic image;
@@ -31,7 +32,9 @@ class ImageView extends StatelessWidget {
     final errWidget = errorWidget ??
         Icon(
           Icons.image_not_supported_outlined,
-          size: fit == BoxFit.fitHeight ? height : width,
+          size: fit == BoxFit.fitHeight
+              ? SizeConfig.height * .2
+              : SizeConfig.width * .2,
           color: Colors.grey,
         );
     if (image is String) {

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:newtronic_apps/utils/check_permission.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
@@ -18,6 +19,13 @@ class FileDownloader {
     if (isGranted) {
       try {
         await dio.download(url, '$directory/$fileName');
+        // await FlutterDownloader.enqueue(
+        //   url: url,
+        //   savedDir: directory,
+        //   fileName: fileName,
+        //   showNotification: true, // Tampilkan notifikasi proses unduhan
+        //   openFileFromNotification: true, // Buka file setelah diunduh
+        // );
       } catch (e) {
         debugPrint(e.toString());
         return false;

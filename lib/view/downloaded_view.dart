@@ -58,7 +58,7 @@ class DownloadedView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ImageView(
-                        image: provider.img,
+                        image: provider.urlImageLoc,
                         height: SizeConfig.height * .3,
                         width: SizeConfig.width,
                         fit: BoxFit.fill,

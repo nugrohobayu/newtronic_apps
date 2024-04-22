@@ -40,12 +40,16 @@ class _SplashScreenState extends State<SplashScreen> {
     }
   }
 
-  @override
-  void initState() async {
+  Future initS() async {
     await checkStoragePermission();
     Future.delayed(const Duration(seconds: 2)).then((value) {
       Navigator.pushNamed(context, HomeView.routeName);
     });
+  }
+
+  @override
+  void initState() {
+    initS();
     super.initState();
   }
 

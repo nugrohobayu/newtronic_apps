@@ -1,7 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:newtronic_apps/data/model/button_list_model.dart';
 import 'package:newtronic_apps/data/service/api.dart';
 import 'package:newtronic_apps/data/service/database_service.dart';
+import 'package:newtronic_apps/utils/downloads_path.dart';
+import 'package:path_provider/path_provider.dart';
+import '../enums/result_data.dart';
 import '../model/response_api_model.dart';
 
 class HomeViewModel extends ChangeNotifier {
@@ -33,10 +38,34 @@ class HomeViewModel extends ChangeNotifier {
 
   List<Playlist> _playlist = [];
   List<Playlist> get playlist => _playlist;
+  late ResultData resultData;
 
   Future _getPlaylist() async {
     final result = await DatabaseService().getDownloaded();
     _playlist = result;
+    notifyListeners();
+  }
+
+  File? urlImageLoc;
+  File? urlVideoLoc;
+
+  Future getImageFile(String fileName) async {
+    final directory = Platform.isAndroid
+        ? (await DownloadsPath.downloadsDirectory())
+        : (await getApplicationDocumentsDirectory()).path;
+    final fileNameDir = '$directory/$fileName';
+    File imageFile = File(fileNameDir);
+    urlImageLoc = imageFile;
+    urlVideoLoc = imageFile;
+    notifyListeners();
+  }
+
+  void splitUrlLoc(String url) {
+    List<String> parts = url.split('/');
+    String lastPart = parts.last;
+    List<String> idAndParams = lastPart.split('?');
+    String id = idAndParams.first;
+    idVideo = id;
     notifyListeners();
   }
 
@@ -77,17 +106,40 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   Future<void> _getList() async {
-    final result = await Api().fetchApi();
-    if (result!.data.isNotEmpty) {
-      urlLogo = result.data.first.logo;
-      titleMenu = result.data.first.title;
-      descMenu = result.data.first.description;
-      img = result.data.first.playlist.first.url;
-      title = result.data.first.playlist.first.title;
-      desc = result.data.first.playlist.first.description;
-      listContent = result.data.first.playlist;
+    try {
+      resultData = ResultData.loading;
+      notifyListeners();
+      final result = await Api().fetchApi();
+      if (result!.data.isNotEmpty) {
+        resultData = ResultData.hasData;
+        urlLogo = result.data.first.logo;
+        titleMenu = result.data.first.title;
+        descMenu = result.data.first.description;
+        img = result.data.first.playlist.first.url;
+        title = result.data.first.playlist.first.title;
+        desc = result.data.first.playlist.first.description;
+        listContent = result.data.first.playlist;
+        notifyListeners();
+      } else {
+        resultData = ResultData.noData;
+        notifyListeners();
+      }
+    } catch (error) {
+      resultData = ResultData.error;
+      notifyListeners();
     }
-    notifyListeners();
+
+    // final result = await Api().fetchApi();
+    // if (result!.data.isNotEmpty) {
+    //   urlLogo = result.data.first.logo;
+    //   titleMenu = result.data.first.title;
+    //   descMenu = result.data.first.description;
+    //   img = result.data.first.playlist.first.url;
+    //   title = result.data.first.playlist.first.title;
+    //   desc = result.data.first.playlist.first.description;
+    //   listContent = result.data.first.playlist;
+    // }
+    // notifyListeners();
   }
 
   void playback(int index) {
